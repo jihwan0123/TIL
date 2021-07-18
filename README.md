@@ -2,7 +2,7 @@
 
 ### [Java](./Java)
 
-### **[Java-code](./Java-code)**
+### **[Java-practice](./Java-practice)**
 
 ### [Spring](./Spring)
 
