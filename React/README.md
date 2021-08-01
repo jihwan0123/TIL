@@ -324,7 +324,479 @@ class Welcome extends React.Component {
 
 
 
-### React Hook
+
+
+## 조건부 렌더링
+
+> 애플리케이션의 상태에 따라 컴포넌트 중 몇개만 렌더링하는 것
+
+#### 1. if문 분기
+
+```jsx
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <UserGreeting />;
+  }
+  return <GuestGreeting />;
+}
+```
+
+#### 2. 중괄호 표현식
+
+```jsx
+function Mailbox(props) {
+  const unreadMessages = props.unreadMessages;
+  return (
+    <div>
+      <h1>Hello!</h1>
+      {unreadMessages.length > 0 &&
+        <h2>
+          You have {unreadMessages.length} unread messages.
+        </h2>
+      }
+    </div>
+  );
+}
+```
+
+중괄호 안에 && 연산자를 이용해서 조건에 따라 렌더링 가능
+
+#### 3. 조건부 연산자
+
+```jsx
+render() {
+  const isLoggedIn = this.state.isLoggedIn;
+  return (
+    <div>
+      {isLoggedIn
+        ? <LogoutButton onClick={this.handleLogoutClick} /> // 로그인 상태면 로그아웃 버튼
+        : <LoginButton onClick={this.handleLoginClick} /> // 아니면 로그인버튼 렌더링
+      }
+    </div>
+  );
+}
+```
+
+#### 4. 컴포넌트 렌더링 막기
+
+```jsx
+function WarningBanner(props) {
+  if (!props.warn) {
+    return null; // 2. null을 반환하면 렌더링을 막을 수 있다.
+  }
+
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  );
+}
+
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {showWarning: true};
+    this.handleToggleClick = this.handleToggleClick.bind(this);
+  }
+
+  handleToggleClick() {
+    this.setState(state => ({
+      showWarning: !state.showWarning
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <WarningBanner warn={this.state.showWarning} /> {/* 1. 컴포넌트 props로 넘겨주고*/} 
+        <button onClick={this.handleToggleClick}>
+          {this.state.showWarning ? 'Hide' : 'Show'}
+        </button>
+      </div>
+    );
+  }
+}
+```
+
+
+
+
+
+## 리스트와 Key
+
+> 일반적으로 컴포넌트안에서 리스트를 렌더링한다.
+
+```jsx
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    <li key={number.toString()}> // key 값을 설정해주지 않으면 경고가 표시된다.
+      {number}
+    </li>
+  );
+  return (
+    <ul>{listItems}</ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  <NumberList numbers={numbers} />,
+  document.getElementById('root')
+);
+```
+
+### Key
+
+> Key는 React가 어떤 항목을 변경, 추가 또는 삭제할지 식별하는 것을 돕는다.
+>
+> key는 엘리먼트에 안정적인 고유성을 부여하기 위해 배열 내부의 엘리먼트에 지정해야 한다.
+>
+> 보통 key값은 데이터의 ID를 사용한다. (ex. `key={todo.id}`)
+>
+> 안정적인 ID값이 없으면 항목의 index값 사용
+>
+> 배열 안에서 형제사이에서만 고유한 값을 가지면 된다. (전체범위에서 고유한 값일 필요는 없다.)
+
+```jsx
+function ListItem(props) {
+  // 맞습니다! 여기에는 key를 지정할 필요가 없습니다.
+  return <li>{props.value}</li>;
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    // 맞습니다! 배열 안에 key를 지정해야 합니다.
+    <ListItem key={number.toString()} value={number} />
+  );
+  return (
+    <ul>
+      {listItems}
+    </ul>
+  );
+}
+```
+
+#### JSX에 map() 포함시켜서 표현 가능
+
+```jsx
+function NumberList(props) {
+  const numbers = props.numbers;
+  return (
+    <ul>
+      {numbers.map((number) =>
+        <ListItem key={number.toString()}
+                  value={number} />
+      )}
+      {/* 다음과 같이 {} 안에 map() 함수 사용 가능*/}
+    </ul>
+  );
+}
+```
+
+
+
+
+
+## Form
+
+### textarea
+
+> value 어트리뷰트 사용
+
+```jsx
+class EssayForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'Please write an essay about your favorite DOM element.'
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('An essay was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Essay:
+          <textarea value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
+
+### select
+
+> 드롭다운 목록
+>
+> 최상단에서 value 어트리뷰트 사용
+>
+> multiple 옵션을 허용하면 value 어트리뷰트에 배열을 전달할 수 있다.
+
+```jsx
+<select value={this.state.value} onChange={this.handleChange}>
+    <option value="grapefruit">Grapefruit</option>
+    <option value="lime">Lime</option>
+    <option value="coconut">Coconut</option>
+    <option value="mango">Mango</option>
+</select>
+// multiple
+<select multiple={true} value={['B', 'C']}>
+```
+
+
+
+```jsx
+// file input 태그
+<input type="file" />
+```
+
+
+
+### 다중 입력 제어하기
+
+> 여러 input을 제어해야 할 때, 각 엘리먼트에 name 어트리뷰트를 추가하고 event.target.name 값을 통해 핸들러가 어떤 작업을 할 지 선택할 수 있게 해준다.
+
+```jsx
+class Reservation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <form>
+        <label>
+          Is going:
+          <input
+            name="isGoing"
+            type="checkbox"
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Number of guests:
+          <input
+            name="numberOfGuests"
+            type="number"
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange} />
+        </label>
+      </form>
+    );
+  }
+}
+```
+
+
+
+
+
+## State 끌어올리기
+
+> 종종 동일한 데이터에 대한 변경사항을 여러 컴포넌트에 반영해야 할 필요가 있습니다. 이럴 때는 가장 가까운 공통 조상으로 state를 끌어올리는 것이 좋습니다. 
+>
+> React 애플리케이션 안에서 변경이 일어나는 데이터에 대해서는 “진리의 원천(source of truth)“을 하나만 두어야 합니다. 
+>
+> 보통의 경우, state는 렌더링에 그 값을 필요로 하는 컴포넌트에 먼저 추가됩니다. 
+>
+> 그러고 나서 다른 컴포넌트도 역시 그 값이 필요하게 되면 그 값을 그들의 가장 가까운 공통 조상으로 끌어올리면 됩니다. 
+>
+> 다른 컴포넌트 간에 존재하는 state를 동기화시키려고 노력하는 대신 하향식 데이터 흐름에 기대는 걸 추천합니다.
+
+섭씨화씨 변환 예제 : https://codepen.io/gaearon/pen/WZpxpz?editors=0010
+
+```jsx
+class Calculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    this.state = {temperature: '', scale: 'c'};
+  }
+
+  handleCelsiusChange(temperature) {
+    this.setState({scale: 'c', temperature});
+  }
+
+  handleFahrenheitChange(temperature) {
+    this.setState({scale: 'f', temperature});
+  }
+
+  render() {
+    const scale = this.state.scale;
+    const temperature = this.state.temperature;
+    const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+    const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+
+    return (
+      <div>
+        <TemperatureInput
+          scale="c"
+          temperature={celsius}
+          onTemperatureChange={this.handleCelsiusChange} />
+        <TemperatureInput
+          scale="f"
+          temperature={fahrenheit}
+          onTemperatureChange={this.handleFahrenheitChange} />
+        <BoilingVerdict
+          celsius={parseFloat(celsius)} />
+      </div>
+    );
+  }
+}
+```
+
+
+
+![예제](https://ko.reactjs.org/ef94afc3447d75cdc245c77efb0d63be/react-devtools-state.gif)
+
+
+
+## 합성 vs 상속
+
+> React는 강력한 합성 모델을 가지고 있으며, 상속 대신 합성을 사용하여 컴포넌트 간에 코드를 재사용하는 것이 좋습니다.
+>
+> Facebook에서는 수천 개의 React 컴포넌트를 사용하지만, 컴포넌트를 상속 계층 구조로 작성을 권장할만한 사례를 아직 찾지 못했습니다.
+
+### 컴포넌트에서 다른 컴포넌트를 담기
+
+> React 엘리먼트는 단지 객체이기 때문에 다른 데이터처럼 `<Contacts />`, `<Chat /`> 같은 객체를 props로 넘겨줄 수 있다.
+>
+> className도 가능
+
+```jsx
+function FancyBorder(props) {
+  return (
+    <div className={'FancyBorder FancyBorder-' + props.color}>
+      {props.children}
+    </div>
+  );
+}
+```
+
+```jsx
+function SplitPane(props) {
+  return (
+    <div className="SplitPane">
+      <div className="SplitPane-left">
+        {props.left}
+      </div>
+      <div className="SplitPane-right">
+        {props.right}
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <SplitPane
+      left={
+        <Contacts />
+      }
+      right={
+        <Chat />
+      } />
+  );
+}
+```
+
+
+
+## React로 사고하기
+
+### 1단계: UI를 컴포넌트 계층 구조로 나누기
+
+> 단일책임원칙 : 하나의 컴포넌트는 한가지 일을 하는게 이상적이다.
+
+![컴포넌트](https://ko.reactjs.org/static/eb8bda25806a89ebdc838813bdfa3601/6b2ea/thinking-in-react-components.png)
+
+다음 예시는 5개의 컴포넌트로 이루어져 있으며 계층구조는 다음과 같다.
+
+- `FilterableProductTable`
+  - `SearchBar`
+  - `ProductTable`
+    - `ProductCategoryRow`
+    - `ProductRow`
+
+
+
+### 2단계: React로 정적인 버전 만들기
+
+정적 버전을 만들기 위해 **state를 사용하지 마세요**. state는 오직 상호작용을 위해, 즉 시간이 지남에 따라 데이터가 바뀌는 것에 사용합니다. 우리는 앱의 정적 버전을 만들고 있기 때문에 지금은 필요하지 않습니다.
+
+앱을 만들 때, 상층부에 있는 컴포넌트부터 만드는 **하향식(top-down) 방법**과  하층부부터 만드는 **상향식(bottom-up)방법**이 있다. 
+
+보통 하향식으로 만드는 게 쉽지만 프로젝트가 커지면 상향식으로 만들고 테스트를 작성하면서 개발하기가 더 쉽다.
+
+
+
+### 3단계: UI state에 대한 최소한의 (하지만 완전한) 표현 찾아내기
+
+> 중복배제원칙 :  모든 형태의 정보 중복을 지양하는 원리
+
+ex) TODO 리스트를 만든다고 하면, TODO 아이템을 저장하는 배열만 유지하고 TODO 아이템의 개수를 표현하는 state는 별도로 만들 필요가 없다.
+
+TODO 갯수를 렌더링해야한다면 TODO 아이템 배열의 길이를 가져오면 된다.
+
+어떤 게 state가 되어야 하는지는 다음 3가지 질문을 통해 결정할 수 있다.
+
+1. **부모로부터 props를 통해 전달됩니까? 그러면 확실히 state가 아닙니다.**
+2. **시간이 지나도 변하지 않나요? 그러면 확실히 state가 아닙니다.**
+3. **컴포넌트 안의 다른 state나 props를 가지고 계산 가능한가요? 그렇다면 state가 아닙니다.**
+
+
+
+### 4단계: State가 어디에 있어야 할 지 찾기
+
+- state를 기반으로 렌더링하는 모든 컴포넌트를 찾으세요.
+- 공통 소유 컴포넌트 (common owner component)를 찾으세요. (계층 구조 내에서 특정 state가 있어야 하는 모든 컴포넌트들의 상위에 있는 하나의 컴포넌트).
+- 공통 혹은 더 상위에 있는 컴포넌트가 state를 가져야 합니다.
+- state를 소유할 적절한 컴포넌트를 찾지 못하였다면, state를 소유하는 컴포넌트를 하나 만들어서 공통 오너 컴포넌트의 상위 계층에 추가하세요.
+
+
+
+### 5단계: 역방향 데이터 흐름 추가하기
+
+계층 구조의 하단에 있는 폼 컴포넌트에서 상층부의 state를 업데이트할 수 있어야한다.
+
+
+
+## React Hook
 
 > React 16.8에서 새로 추가된 개념 / class를 작성하지 않고 React 기능 사용 가능
 >
