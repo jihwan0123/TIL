@@ -1,0 +1,140 @@
+[TOC]
+
+# 파이썬으로 시작하는 데이터 사이언스
+
+> https://www.boostcourse.org/ds112/joinLectures/28137
+
+
+
+## 1. 데이터 분석 환경 구성
+
+### 설치
+
+Anaconda, Jupyter Notebook
+
+
+
+### Pandas
+
+> 10 minutes to pandas
+>
+> https://pandas.pydata.org/docs/user_guide/10min.html
+>
+> Pandas Cheet Sheet
+>
+> https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf
+
+
+
+
+
+## 2. 데이터 분석 준비하기
+
+> [Pandas_Basic](./Pandas_basic.ipynb)
+
+
+
+## 3. 서울 종합병원 분포 확인하기
+
+### 초기 라이브러리, 폰트 호출
+
+#### 라이브러리
+
+```python
+import pandas as pd # 파이썬의 엑셀과 유사한 라이브러리
+import numpy as np # 고성능의 수치계산, 행렬이나 대규모 다차원 배열을 쉽게 처리하기 위한 라이브러리
+import seaborn as sns # 데이터 시각화
+```
+
+
+
+#### 시각화를 위한 폰트 설정
+
+```python
+import matplotlib.pyplot as plt # 데이터 시각화 라이브러리
+# Window의 한글 폰트 설정
+plt.rc('font', family='Malgun Gothic')
+plt.rc('axes', unicode_minus=False) # minus 폰트 깨짐 방지
+# 그래프가 노트북 안에 보이게 하기 위해
+%matplotlib inline
+
+from IPython.display import set_matplotlib_formats
+# 폰트가 선명하게 보이게 하기 위해
+set_matplotlib_formats('retina')
+```
+
+
+
+#### Pandas 데이터 로드
+
+```python
+# read_csv로 불러온 파일을 df 변수에 담기
+df = pd.read_csv("data/소상공인시장진흥공단_상가업소정보_의료기관_201909.csv", low_memory=False)
+```
+
+
+
+#### 데이터 미리보기
+
+- df.shape 
+  - 데이터 (행,열) 확인
+
+- df.head(n) 
+  - 앞에 n개
+- df.tail(n) 
+  - 뒤에 n개
+- df.sample(n) 
+  - 랜덤 n개
+
+
+
+#### 데이터 요약하기
+
+- df.info()
+- df.columns 
+  - 컬럼명만
+
+
+
+#### 결측치
+
+> 데이터 비어있는지 확인(True/False)
+
+- df.isnull()
+- isnull().sum()
+  - 결측치 합 확인
+- set_index()
+  - DataFrame 내의 열 인덱스 설정
+- reset_index()
+  - 인덱스 reset
+
+
+
+#### 컬럼명 변경하기
+
+- df_null_count.columns = ["컬럼명", "컬측치수"]
+
+
+
+#### 정렬하기
+
+- df_null_count_top = df_null_count.sort_values(by="결측치수", ascending=False).head(10)
+  - 결측치수 기준으로 내림차순 상위 10개 출력
+
+
+
+#### 특정 컬럼만 부르기
+
+- df["지점명"]
+
+- df["컬럼명"].tolist()
+  - 컬럼값만 가져오기
+
+
+
+#### 제거하기
+
+- df.drop(drop_columns, axis=1)
+  - axis
+    - 0: index, 1: columns
+
