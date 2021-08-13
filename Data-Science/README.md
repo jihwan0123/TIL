@@ -138,3 +138,40 @@ df = pd.read_csv("data/소상공인시장진흥공단_상가업소정보_의료�
   - axis
     - 0: index, 1: columns
 
+
+
+#### 기초 통계값 보기
+
+- df.types : 데이터 types
+- mean() : 평균
+- median(), max(), min()
+  - 중앙값, 최댓값, 최솟값
+- count() : 갯수
+
+- describe() : 데이터 요약
+  - describe를 사용하면 데이터를 요약해 볼 수 있다. 기본적으로 수치형 데이터를 요약해서 보여준다.
+  - 데이터의 갯수, 평균, 표준편차 ,최솟값, 1사분위수(25%), 2사분위수(50%), 3사분위수(75%), 최댓값을 볼 수 있다.
+
+- df.describe(include="object") : 문자열 데이터타입 요약
+
+- unique : 중복제거
+- nunique : unique 결과 갯수
+
+- value_counts() : 그룹화된 요약값 보기
+
+- value_counts(normalize=True) : 비율까지 볼 수 있다.
+- plot.barh() : 가로막대 그래프 그리기
+
+- plot.pie() : 파이차트 그리기
+  - 파이차트는 비율을 파악하기 힘들어서 오해의 소지가 있어 권장되지 않음.
+
+- 그룹화된 요약
+  - seaborn
+    - pandas보다 더 예쁜 그래프를 그릴 수 있다.
+  - sns.countplot(data=df, x="시도명")
+  - 데이터가 크면 클수록 느리다는 단점이 있다.
+
+- plot.bar(rot=0) 
+  - rot(rotate) = 얼마만큼 label 값들을 회전시킬건지
+  - grid=True  격자표시
+
