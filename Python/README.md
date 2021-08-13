@@ -2,9 +2,9 @@
 
 > 🔍 새롭게 알게 된 내용 정리
 
-## Zen of Python
+## ✏Zen of Python
 
-> 이스터에그, 파이
+> 이스터에그, 파이썬의 선
 
 ```python
 import this
@@ -67,7 +67,7 @@ func()
 
 
 
-## itertools
+## ✏itertools
 
 > https://docs.python.org/ko/3/library/itertools.html
 >
@@ -121,3 +121,40 @@ def powerset(iterable):
 [(), ('a',), ('b',), ('c',), ('d',), ('a', 'b'), ('a', 'c'), ('a', 'd'), ('b', 'c'), ('b', 'd'), ('c', 'd'), ('a', 'b', 'c'), ('a', 'b', 'd'), ('a', 'c', 'd'), ('b', 'c', 'd'), ('a', 'b', 'c', 'd')]
 ```
 
+
+
+## ✏pytest
+
+> 파이썬 Unit Test를 위한 프레임워크로 내장모듈인 unittest 보다 간단해서 자주 사용된다.
+>
+> (https://docs.pytest.org/en/6.2.x/)
+>
+> 파이썬 공식문서 소개: 테스트를 작성하기에 간편한 문법을 가지고 있는 제삼자의 단위 테스트 프레임워크. 예시, `assert func(10) == 42`.
+
+```python
+import pytest
+
+# 테스트함수 test로 시작, 
+def test_case0():
+    # ID  존재, PW는 일치
+    assert main.Login('test1', 'test1234') == True
+    pass
+
+def test_case1():
+    # ID 공란
+    assert main.Login('', 'test1234') == main.FIRST_CASE_RESULT
+    pass
+
+def test_case2():
+    # ID 존재, PW 불일치
+    assert main.Login('test1', '1234') == main.SECOND_CASE_RESULT
+    pass
+```
+
+- snake_case를 이용하여 함수 정의
+- `pytest -v` :디렉토리의 테스트 파일들 시행 + 설명
+- `pytest 파일명` : 특정 테스트파일만 실행
+
+- `pytest --maxfail = n` 와 같이 n번의 테스트 실패 후 테스트 정지 설정 가능
+
+- `pytest-xdist` 를 이용해서 여러 테스트 동시에 수행 가능
