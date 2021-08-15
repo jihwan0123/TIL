@@ -201,3 +201,30 @@ df = pd.read_csv("data/소상공인시장진흥공단_상가업소정보_의료�
 - "꽃배달|의료기|장례식장|상담소|어린이집" 은 종합병원과 무관
 - 의원으로 끝나는 데이터도 종합병원과 무관
 - `df_seoul_hospital["상호명"].unique()` 를 통해서 데이터를 보며 전처리 작업 진행
+
+
+
+### 지도 그리기
+
+- Pandas의 plot.scatter
+  - df_seoul[["경도", "위도", "시군구명"]].plot.scatter(x="경도", y="위도", figsize=(8,7), grid=True)
+- Seaborn의 scatterplot
+  - sns.scatterplot(data=df_seoul, x="경도", y="위도", hue="시군구명")
+  - hue 값으로 색상 다르게 표시 가능
+
+
+
+### Folium
+
+> 지도 데이터 시각화
+>
+> `conda install -c conda-forge folium`
+>
+> https://nbviewer.jupyter.org/github/python-visualization/folium/blob/master/examples/Quickstart.ipynb
+
+- folium.Map
+  - 맵 그리기
+- folium.Marker
+  - 마커 표시
+  - https://nbviewer.jupyter.org/github/python-visualization/folium/blob/master/examples/Quickstart.ipynb#Markers
+
