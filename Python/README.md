@@ -158,3 +158,40 @@ def test_case2():
 - `pytest --maxfail = n` 와 같이 n번의 테스트 실패 후 테스트 정지 설정 가능
 
 - `pytest-xdist` 를 이용해서 여러 테스트 동시에 수행 가능
+
+
+
+
+
+## ✏정규표현식
+
+> [정규식.md](./정규식.md)
+
+
+
+## ✏Counter
+
+> https://docs.python.org/ko/3/library/collections.html#collections.Counter
+>
+> `from collections import Counter`
+>
+> 해시 가능한 객체를 세기 위한 dict 서브클래스
+>
+> dict로 하나하나 세는 것을 Counter를 이용하면 편리하게 할 수 있다.
+
+```python
+from collections import Counter
+
+c = Counter()                           # Counter() 객체 생성
+c = Counter('gallahad')                 # Counter({'a': 3, 'l': 2, 'g': 1, 'h': 1, 'd': 1})
+c = Counter({'red': 4, 'blue': 2})      # Counter({'red': 4, 'blue': 2})
+c = Counter(cats=4, dogs=8)             # Counter({'dogs': 8, 'cats': 4})
+
+Counter('abracadabra').most_common(3)  # [('a', 5), ('b', 2), ('r', 2)]
+```
+
+#### most_common(n)
+
+> n 개의 가장 흔한 요소와 그 개수를 가장 흔한 것부터 가장 적은 것 순으로 나열한 리스트를 반환
+>
+> n 생략 시 모든 요소 반환
