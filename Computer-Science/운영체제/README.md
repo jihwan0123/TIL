@@ -7,8 +7,8 @@
 | **[1장. Introduction to Operating Systems](./1장.md)**    | **21/10/06**            |
 | **[2장. System Structure & Program Execution](./2장.md)** | **21/10/07 ~ 21/10/10** |
 | **[3장. Process](./3장.md)**                              | **21/10/12 ~ 21/10/13** |
-| 4                                                         |                         |
-| 5                                                         |                         |
+| **[4장. Process Management](./4장.md)**                   | **21/10/14 ~ 21/10/15** |
+| **[5장. CPU Scheduling](./5장.md)**                       | **21/10/15 ~ **         |
 | 6                                                         |                         |
 | 7                                                         |                         |
 | 8                                                         |                         |
