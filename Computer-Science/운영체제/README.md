@@ -8,8 +8,8 @@
 | **[2장. System Structure & Program Execution](./2장.md)** | **21/10/07 ~ 21/10/10** |
 | **[3장. Process](./3장.md)**                              | **21/10/12 ~ 21/10/13** |
 | **[4장. Process Management](./4장.md)**                   | **21/10/14 ~ 21/10/15** |
-| **[5장. CPU Scheduling](./5장.md)**                       | **21/10/15 ~ **         |
-| 6                                                         |                         |
+| **[5장. CPU Scheduling](./5장.md)**                       | **21/10/15 ~ 21/10/31** |
+| **[6장. Process Synchronization](./6장.md)**              | **21/10/31 ~**          |
 | 7                                                         |                         |
 | 8                                                         |                         |
 | 9                                                         |                         |
