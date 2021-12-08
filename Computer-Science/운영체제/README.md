@@ -14,5 +14,5 @@
 | **[8장. Memory Management](./8장.md)**                    | **21/11/21 ~ 21/12/04** |
 | **[9장. Virtual Memory](./9장.md)**                       | **21/12/06**            |
 | **[10장. File Systems](./10장.md)**                       | **21/12/07**            |
-| 11                                                        |                         |
+| **[11장. Disk Management & Scheduling](./11장.md)**       | **21/12/08**            |
 
